@@ -4,6 +4,10 @@
 #include <time.h>
 
 int ** makeMatriz(int a, int b,int c);
+int * getColumna(int noCol, int ** matriz, int filas,int columas);
+int * getFila(int noFil, int ** matriz, int filas,int columas);
+int multilpica(int * fila, int * columna);
+
 
 int main(){
   int filasA=2;
@@ -12,22 +16,37 @@ int main(){
   int filasB=3;
   int columnasB=3;
 
-  int **arregloA;
-  int ** arregloB;
-  int ** arregloC;
+  int filasC=filasA;
+  int columnasC=columnasB;
 
-  arregloA= makeMatriz(filasA,columnasA,1);
-  printf("\n" );
-  arregloB=makeMatriz(filasB,columnasB,1);
-  printf("\n");
-  arregloC=makeMatriz(columnasA,filasB,0);
+  int **matrizA;
+  int ** matrizB;
+  int ** matrizC;
+
+  printf("Matriz A\n\n");
+  matrizA= makeMatriz(filasA,columnasA,1);
+  printf("\nMatrizB \n\n" );
+  matrizB=makeMatriz(filasB,columnasB,1);
+  printf("\nRsultado A*B\n\n");
+  matrizC=makeMatriz(filasC,columnasB,0);
 
 
+  for(int i=0;i<filasC;i++){
+    for(int j=0;j<columnasC;j++){
+      matrizC[i][j]=multilpica(getFila(i,matrizA,filasA,columnasA),getColumna(j,matrizB,filasB,columnasB));
+    }
 
+  }
 
+  for(int i=0;i<filasC;i++){
+    for(int j=0;j<columnasC;j++){
+      //printf("i=%d j=%d,",i,j);
+      printf("%d,",matrizC[i][j] );
+    }
+    printf("\n" );
+  }
 
-
-
+  return 0;
 }
 
 
@@ -51,17 +70,40 @@ int main(){
          }
          printf("\n");
        }
-   }else{
-     for(int i=0;i<filas;i++){
-         for(int j=0;j<columnas;j++){
-
-           //matriz[i][j]=0;
-           printf("%d,",matriz[i][j]);
-         }
-         printf("\n");
-       }
-
    }
      return matriz;
 
+}
+
+int * getColumna(int noCol, int ** matriz, int filas,int columas){
+  int * res=(int *)calloc(filas,sizeof(int));
+
+  for(int i=0;i<filas;i++){
+    res[i]=matriz[i][noCol];
+    //printf("%d\n",res[i] );
+  }
+
+  return res;
+}
+
+int * getFila(int noFil, int ** matriz, int filas,int columas){
+  int * res=(int *)calloc(columas,sizeof(int));
+  for(int i=0;i<columas;i++){
+    res[i]=matriz[noFil][i];
+    //printf("%d\n",res[i] );
+
+  }
+  return res;
+}
+
+
+int multilpica(int * fila, int * columna){
+  int length=sizeof(fila)/sizeof(int);
+  int res=0;
+  for(int i=0;i<=length;i++){
+    res+=fila[i]*columna[i];
+
+  }
+
+  return res;
 }
