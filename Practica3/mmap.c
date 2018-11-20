@@ -7,15 +7,23 @@
 #include <sys/mman.h>
 #include <string.h>
 
+#define MAX_SIZE 2000
+
 int main(int argc,char *argv[]){
 
+  char buf[MAX_SIZE];
   int fd;
   struct stat mystat;
   unsigned char *pmap;
 
   fd= open("test.txt", O_RDWR);
 
+
   printf("File Descriptor de mi archivo es: %d\n",fd );
+  printf("***************leyendo archivo con Read() *****************\n" );
+
+  while(read(fd,buf,MAX_SIZE) > 0)
+    printf("%s",buf);
 
   if(fd== -1){
     perror("open");
@@ -23,15 +31,13 @@ int main(int argc,char *argv[]){
   }
 
   if(fstat(fd,&mystat) <0){
-
     perror("fstat");
     close(fd);
     exit(1);
-
   }
 
 
-  printf("********Abriendo archivo y mostrandolo con mmap******* \n" );
+  printf("\n********Abriendo archivo y mostrandolo con mmap******* \n" );
   pmap=(char *)mmap(0,mystat.st_size,PROT_READ,
             MAP_SHARED,fd,0);
 
