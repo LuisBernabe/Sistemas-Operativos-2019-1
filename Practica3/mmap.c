@@ -16,7 +16,7 @@ int main(int argc,char *argv[]){
   struct stat mystat;
   unsigned char *pmap;
 
-  fd= open("test.txt", O_RDWR);
+  fd= open("test.txt", O_RDWR); //obtengo el File Descriptor
 
 
   printf("File Descriptor de mi archivo es: %d\n",fd );
