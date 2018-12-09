@@ -19,7 +19,7 @@ int main( int argc, char **argv )
   pipe( b );
 
   if ( (pid=fork()) == 0 ){
-     // hijo
+     //hijo
     close( a[1] ); /* cerramos el lado de escritura del pipe */
     close( b[0] ); /* cerramos el lado de lectura del pipe */
 
